@@ -3,6 +3,7 @@ import LandingPageFeatures from "@/components/landing-page/features"
 import LandingPageHeader from "@/components/landing-page/header"
 import LandingPageHero from "@/components/landing-page/hero"
 import SplitKineticSpecifications from "@/components/landing-page/specs"
+import SubscribeForm from "@/components/landing-page/subscribe-form"
 
 
 export default function HomePage() {
@@ -25,6 +26,9 @@ export default function HomePage() {
 
         {/* 5. SPECS SECTION COMPONENT */}
         <SplitKineticSpecifications />
+
+        {/* 6. SUBSCRIBE FORM SECTION COMPONENT */}
+        <SubscribeForm />
       </main>
     </div>
   )
