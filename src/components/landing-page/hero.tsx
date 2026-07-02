@@ -1,6 +1,5 @@
 'use client'
 
-import Image from "next/image"
 import { Play } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
@@ -131,7 +130,7 @@ const LandingPageHero = () => {
                         <div
                             className={cn(
                                 "relative",
-                                "max-w-5xl mx-auto p-2 mt-16",
+                                "max-w-7xl mx-auto p-2 mt-16",
                                 "border border-border/60 bg-background rounded-3xl shadow-2xl shadow-foreground/5 dark:shadow-none",
                                 "md:mt-24"
                             )}
@@ -142,21 +141,24 @@ const LandingPageHero = () => {
                                     "bg-secondary/10 rounded-2xl"
                                 )}
                             >
-                                <Image
-                                    src="/images/neakasam1-2.webp"
-                                    alt="Neakasa M1 Open-Top Self-Cleaning Cat Litter Box Showcase"
-                                    width={1200}
-                                    height={675}
-                                    priority={true}
-                                    className={cn(
-                                        "w-full h-auto",
-                                        "object-cover object-center",
-                                        "bg-transparent rounded-2xl",
-                                        "hover:scale-[1.01]",
-                                        "transition-transform duration-700"
-                                    )}
-                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
-                                />
+                                <picture className="w-full block">
+                                    {/* Thiết bị >= 768px (md) sẽ load ảnh nằm ngang này */}
+                                    <source
+                                        media="(min-width: 768px)"
+                                        srcSet="/images/neakasa_m1_pc.webp"
+                                    />
+                                    {/* Thiết bị < 768px (mặc định) sẽ chỉ tải ảnh dọc này để tối ưu dung lượng */}
+                                    <img
+                                        src="/images/neakasa_m1_mobile.webp"
+                                        alt="Neakasa M1 Open-Top Self-Cleaning Cat Litter Box Showcase"
+                                        loading="eager"
+                                        fetchPriority="high"
+                                        className={cn(
+                                            "w-full h-auto object-cover object-center bg-transparent",
+                                            "hover:scale-[1.01] transition-transform duration-700"
+                                        )}
+                                    />
+                                </picture>
                             </div>
                         </div>
                     </div>

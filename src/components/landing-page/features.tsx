@@ -51,7 +51,7 @@ const LandingPageFeatures = () => {
     // Xác định ảnh hiển thị hiện tại (nếu không tương tác thì dùng ảnh tổng quan)
     const currentImage = activeFeature !== null
         ? features.find(f => f.id === activeFeature)?.imageSrc
-        : "/images/neakasam1-2.webp"
+        : "/images/neakasa_m1_upgrades.jfif"
 
     // Hàm xử lý tap/click thông minh cho thiết bị di động
     const handleFeatureSelect = (id: number) => {
