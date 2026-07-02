@@ -1,3 +1,4 @@
+import LandingPageFeatures from "@/components/landing-page/features"
 import LandingPageHeader from "@/components/landing-page/header"
 import LandingPageHero from "@/components/landing-page/hero"
 
@@ -10,7 +11,7 @@ export default function HomePage() {
         {/* 1. HEADER / NAVBAR COMPONENT */}
         <LandingPageHeader />
         <LandingPageHero />
-
+        <LandingPageFeatures />
       </main>
     </div>
   )
