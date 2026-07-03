@@ -42,9 +42,6 @@ const SmartOperation = () => {
 
                 {/* TIÊU ĐỀ TRUNG TÂM */}
                 <div className="text-center max-w-3xl mx-auto space-y-3">
-                    <span className="text-[10px] font-mono tracking-[0.2em] text-primary uppercase block">
-          // System Epilogue
-                    </span>
                     <h3 className="tracking-tight font-bold text-foreground text-2xl sm:text-4xl whitespace-pre-line">
                         {EPILOGUE_SECTION.title}
                     </h3>

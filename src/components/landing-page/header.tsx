@@ -1,8 +1,21 @@
-'use client'
-
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import Image from "next/image"
+
+export const HelLiCorpLogo = () => {
+    return (
+        <div className="relative h-6 w-28 sm:h-7 sm:w-32">
+            <Image
+                src="/images/HeLiCorp-B-bg.webp"
+                alt="Helicorp Logo"
+                fill
+                priority
+                className="object-contain"
+            />
+        </div>
+    )
+}
 
 const LandingPageHeader = () => {
     const navData = [
@@ -36,7 +49,9 @@ const LandingPageHeader = () => {
                             "space-x-2"
                         )}
                     >
-                        <span
+                        <HelLiCorpLogo />
+
+                        {/* <span
                             className={cn(
                                 "text-xl font-bold tracking-tight text-foreground"
                             )}
@@ -49,7 +64,7 @@ const LandingPageHeader = () => {
                             >
                                 M1
                             </span>
-                        </span>
+                        </span> */}
                     </Link>
 
                     {/* Desktop Navigation Links */}
