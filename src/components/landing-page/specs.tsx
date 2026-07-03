@@ -10,7 +10,7 @@ const SPEC_CATEGORIES = [
     {
         id: "cat-1",
         title: "Spatial Dimensions",
-        image: "/images/front&side.webp",
+        image: "/images/design-specs.webp",
         specs: [
             { label: "Waste Bin Capacity", value: "11.23L", note: "Up to 14 days of freedom" },
             { label: "Litter Capacity", value: "7.17L", note: "Optimized cycle efficiency" },
