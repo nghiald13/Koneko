@@ -5,13 +5,15 @@ import Image from "next/image"
 
 export const HelLiCorpLogo = () => {
     return (
-        <div className="relative h-6 w-28 sm:h-7 sm:w-32">
+        <div className="relative sm:h-7 sm:w-32">
             <Image
                 src="/images/HeLiCorp-B-bg.webp"
                 alt="Helicorp Logo"
-                fill
+                width={112}
+                height={28}
                 priority
-                className="object-contain"
+                style={{height: 'auto'}}
+                className="w-28 h-auto sm:w-32 object-contain"
             />
         </div>
     )

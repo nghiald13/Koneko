@@ -51,6 +51,7 @@ export default function SubscribeForm() {
                 <Image
                     src="/images/subscribeBG.webp"
                     alt="Background Grid Art"
+                    loading="eager"
                     fill
                     sizes="100vw"
                     className="object-cover opacity-35 grayscale-[20%]" // Hạ opacity để ảnh không làm rối mắt
@@ -168,7 +169,7 @@ export default function SubscribeForm() {
                                             </>
                                         ) : (
                                             <span className="flex items-center gap-2">
-                                                Submit Secure Consultation Request
+                                                Pre-order
                                                 <svg className="w-4 h-4 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                                     <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                                                 </svg>
