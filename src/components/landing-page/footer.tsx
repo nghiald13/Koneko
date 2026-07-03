@@ -1,5 +1,4 @@
-import Link from "next/link"
-import { HelLiCorpLogo } from "./header"
+import HeLiCorpLogo from "../brand-logo/HeLiCorpLogo"
 
 // 1. KỶ LUẬT DỮ LIỆU: Cập nhật lại hạ tầng thông tin Chi nhánh (Branch)
 const FOOTER_INFRASTRUCTURE = {
@@ -46,7 +45,7 @@ export default function LandingPageFooter() {
 
                     {/* CỘT 1: THƯƠNG HIỆU */}
                     <div className="md:col-span-3 lg:col-span-3 space-y-3">
-                        <HelLiCorpLogo />
+                        <HeLiCorpLogo />
                         <p className="text-sm font-medium text-foreground/80 tracking-wide pt-1">
                             Healthy Living Corporation
                         </p>

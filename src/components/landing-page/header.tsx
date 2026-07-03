@@ -1,23 +1,8 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import Image from "next/image"
-
-export const HelLiCorpLogo = () => {
-    return (
-        <div className="relative sm:h-7 sm:w-32">
-            <Image
-                src="/images/HeLiCorp-B-bg.webp"
-                alt="Helicorp Logo"
-                width={112}
-                height={28}
-                priority
-                style={{height: 'auto'}}
-                className="w-28 h-auto sm:w-32 object-contain"
-            />
-        </div>
-    )
-}
+import { ThemeToggle } from "../theme/theme-toggle"
+import HeLiCorpLogo from "../brand-logo/HeLiCorpLogo"
 
 const LandingPageHeader = () => {
     const navData = [
@@ -51,7 +36,7 @@ const LandingPageHeader = () => {
                             "space-x-2"
                         )}
                     >
-                        <HelLiCorpLogo />
+                        <HeLiCorpLogo />
 
                         {/* <span
                             className={cn(
@@ -89,6 +74,9 @@ const LandingPageHeader = () => {
                             </Link>
                         ))}
                     </nav>
+
+                    {/* Themes */}
+                    <ThemeToggle />
 
                     {/* CTA Action Button */}
                     <div
