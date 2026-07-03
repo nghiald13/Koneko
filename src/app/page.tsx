@@ -1,5 +1,3 @@
-'use client'
-
 import LandingPageNewFeatures from "@/components/landing-page/new-features"
 import LandingPageFeatures from "@/components/landing-page/features"
 import LandingPageHeader from "@/components/landing-page/header"

@@ -80,13 +80,13 @@ const LandingPageHeader = () => {
                             "gap-4"
                         )}
                     >
-                        <Button
+                        <Button asChild
                             variant="default"
                             className={cn(
                                 "rounded-full shadow-sm"
                             )}
                         >
-                            Pre-order Now
+                            <Link href="#subscribeForm">Pre-order Now</Link>
                         </Button>
                     </div>
                 </div>

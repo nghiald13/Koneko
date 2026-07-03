@@ -16,8 +16,8 @@ const FORM_DATA = {
     title: "Experience the Future of Feline Care Today.",
     description: "Secure your priority positioning for the Neakasa M1 Plus ecosystem deployment.",
     perks: [
-        { id: "perk-1", text: "Exclusive 20% Off for the first 50 early registrants." },
-        { id: "perk-2", text: "2-Year Official Warranty guaranteed by HeliCorp Global." },
+        { id: "perk-1", text: "Exclusive 20% Off for early registrants." },
+        { id: "perk-2", text: "2-Year Official Warranty guaranteed by HeLiCorp Global." },
         { id: "perk-3", text: "Free Premium Doorstep Delivery & professional setup consultation." }
     ],
     success: {
