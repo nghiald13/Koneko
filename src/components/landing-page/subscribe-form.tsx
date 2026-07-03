@@ -44,7 +44,9 @@ export default function SubscribeForm() {
     }
 
     return (
-        <section className="relative w-full py-24 bg-secondary/30 border-t border-border/50">
+        <section id="subscribeForm" className={cn(
+            "relative w-full py-24 bg-secondary/30 border-t border-border/50",
+        )}>
             <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16 items-center">
 

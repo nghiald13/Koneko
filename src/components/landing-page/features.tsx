@@ -49,7 +49,9 @@ const SPEC_INDEX_DATA = [
 
 export default function LandingPageFeatures() {
     return (
-        <section className={cn("relative overflow-hidden py-24 sm:py-32 md:py-48 bg-background")}>
+        <section id="mainFeat" className={cn(
+            "relative overflow-hidden py-24 sm:py-32 md:py-48 bg-background",
+        )}>
             <div className={cn("w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8")}>
 
                 {/* PROLOGUE */}

@@ -42,7 +42,9 @@ export default function SplitKineticSpecifications() {
     const [activeGroup, setActiveGroup] = useState(0)
 
     return (
-        <section className={cn("relative w-full bg-background border-t border-border/40")}>
+        <section id="specs" className={cn(
+            "relative w-full bg-background border-t border-border/40",
+        )}>
             <div className={cn("w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8")}>
                 <div className={cn("grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16")}>
 

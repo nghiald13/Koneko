@@ -63,11 +63,11 @@ const LandingPageNewFeatures = () => {
     }
 
     return (
-        <section
+        <section id="newFeat"
             className={cn(
                 "relative overflow-hidden",
                 "py-16 sm:py-24 md:py-36",
-                "bg-background"
+                "bg-background",
             )}
         >
             <div

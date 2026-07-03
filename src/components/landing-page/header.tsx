@@ -5,6 +5,12 @@ import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
 const LandingPageHeader = () => {
+    const navData = [
+        { href: "#newFeat", text: "What's New" },
+        { href: "#mainFeat", text: "Features" },
+        { href: "#specs", text: "Specs" }
+    ]
+
     return (
         <>
             {/* 1. HEADER / NAVBAR COMPONENT */}
@@ -54,36 +60,17 @@ const LandingPageHeader = () => {
                             "text-sm font-medium text-muted-foreground"
                         )}
                     >
-                        <Link
-                            href="#features"
-                            className={cn(
-                                "text-sm font-medium text-muted-foreground",
-                                "hover:text-foreground",
-                                "transition-colors"
-                            )}
-                        >
-                            Features
-                        </Link>
-                        <Link
-                            href="#specs"
-                            className={cn(
-                                "text-sm font-medium text-muted-foreground",
-                                "hover:text-foreground",
-                                "transition-colors"
-                            )}
-                        >
-                            Specs
-                        </Link>
-                        <Link
-                            href="#reviews"
-                            className={cn(
-                                "text-sm font-medium text-muted-foreground",
-                                "hover:text-foreground",
-                                "transition-colors"
-                            )}
-                        >
-                            Reviews
-                        </Link>
+                        {navData.map(nav => (
+                            <Link key={nav.href} href={nav.href}
+                                className={cn(
+                                    "text-sm font-medium text-muted-foreground",
+                                    "hover:text-foreground",
+                                    "transition-colors"
+                                )}
+                            >
+                                {nav.text}
+                            </Link>
+                        ))}
                     </nav>
 
                     {/* CTA Action Button */}

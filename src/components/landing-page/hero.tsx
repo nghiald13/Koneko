@@ -12,13 +12,12 @@ const LandingPageHero = () => {
         <>
             <DialogVideo dialogState={dialogState} setDialogState={setDialogState} />
             {/* MAIN CONTENT */}
-            <main>
                 {/* 2. HERO SECTION COMPONENT */}
-                <section
+                <section id="hero"
                     className={cn(
                         "relative overflow-hidden",
                         "py-20 md:py-32",
-                        "bg-gradient-to-b from-background to-secondary/30"
+                        "bg-gradient-to-b from-background to-secondary/30",
                     )}
                 >
                     <div
@@ -186,7 +185,6 @@ const LandingPageHero = () => {
                         />
                     </div>
                 </section>
-            </main>
         </>
     )
 }

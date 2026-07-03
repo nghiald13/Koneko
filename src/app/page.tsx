@@ -1,19 +1,23 @@
+'use client'
+
 import LandingPageNewFeatures from "@/components/landing-page/new-features"
 import LandingPageFeatures from "@/components/landing-page/features"
 import LandingPageHeader from "@/components/landing-page/header"
 import LandingPageHero from "@/components/landing-page/hero"
 import SplitKineticSpecifications from "@/components/landing-page/specs"
 import SubscribeForm from "@/components/landing-page/subscribe-form"
-
+import LandingPageFooter from "@/components/landing-page/footer"
 
 export default function HomePage() {
+
   return (
     <div className="relative min-h-screen bg-background text-foreground antialiased selection:bg-primary/10">
 
+      {/* 1. HEADER / NAVBAR COMPONENT */}
+      <LandingPageHeader />
+
       {/* MAIN CONTENT */}
       <main>
-        {/* 1. HEADER / NAVBAR COMPONENT */}
-        <LandingPageHeader />
 
         {/* 2. HERO SECTION COMPONENT */}
         <LandingPageHero />
@@ -29,7 +33,12 @@ export default function HomePage() {
 
         {/* 6. SUBSCRIBE FORM SECTION COMPONENT */}
         <SubscribeForm />
+
       </main>
+
+      {/* 7. FOOTER */}
+      <LandingPageFooter />
+
     </div>
   )
 }
