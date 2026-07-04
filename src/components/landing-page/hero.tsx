@@ -41,7 +41,7 @@ export const LandingPageHero = () => {
                         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                         className="inline-flex items-center px-4 py-1.5 mb-6 text-xs font-semibold text-primary bg-primary/10 rounded-full ring-1 ring-inset ring-primary/20 backdrop-blur-md"
                     >
-                        ✨ The Future of Feline Care
+                        The Future of Feline Care
                     </motion.span>
 
                     {/* Tiêu đề bắn chữ từng từ siêu mượt (Text Split Effect) */}
