@@ -6,6 +6,7 @@ import SplitKineticSpecifications from "@/components/landing-page/specs"
 import SubscribeForm from "@/components/landing-page/subscribe-form"
 import LandingPageFooter from "@/components/landing-page/footer"
 import { Toaster } from "sonner"
+import ChatAssistant from "@/components/chatbot/chatbot"
 
 export default function HomePage() {
 
@@ -33,6 +34,8 @@ export default function HomePage() {
 
         {/* 6. SUBSCRIBE FORM SECTION COMPONENT */}
         <SubscribeForm />
+
+        <ChatAssistant />
 
       </main>
 
