@@ -3,6 +3,7 @@
 import React, { useState } from "react"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
+import { motion, AnimatePresence } from "framer-motion"
 
 // Import trực tiếp các component nguyên tử (Atomic Components) của Shadcn
 import { Badge } from "@/components/ui/badge"
@@ -54,10 +55,8 @@ export default function SubscribeForm() {
                     loading="eager"
                     fill
                     sizes="100vw"
-                    className="object-cover opacity-35 grayscale-[20%]" // Hạ opacity để ảnh không làm rối mắt
+                    className="object-cover opacity-35 grayscale-[20%]"
                 />
-                {/* Lớp phủ màu Gradient làm chìm ảnh vào nền Light Theme */}
-                {/* <div className="absolute inset-0 bg-linear-to-b from-background via-background/60 to-background" /> */}
                 {/* Khối sáng Aura bo tròn tạo điểm nhấn thị giác */}
                 <div className="absolute -top-12 -right-12 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px]" />
             </div>
@@ -66,8 +65,14 @@ export default function SubscribeForm() {
             <div className="relative w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
                 <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16 items-center">
 
-                    {/* CỘT BÊN TRÁI: THÔNG ĐIỆP UY TÍN */}
-                    <div className="flex flex-col justify-center lg:col-span-5">
+                    {/* CỘT BÊN TRÁI: THÔNG ĐIỆP UY TÍN (Trồi nhẹ khi cuộn tới) */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                        className="flex flex-col justify-center lg:col-span-5"
+                    >
                         <Badge variant="secondary" className="w-fit px-3 py-1 mb-4 text-xs font-medium tracking-wider uppercase bg-primary/10 text-primary hover:bg-primary/10 border-none rounded-full">
                             {FORM_DATA.badge}
                         </Badge>
@@ -79,124 +84,150 @@ export default function SubscribeForm() {
                         </p>
 
                         <ul className="mt-8 space-y-4">
-                            {FORM_DATA.perks.map((perk) => (
-                                <li key={perk.id} className="flex items-start gap-3">
+                            {FORM_DATA.perks.map((perk, idx) => (
+                                <motion.li
+                                    key={perk.id}
+                                    initial={{ opacity: 0, x: -10 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.5, delay: idx * 0.1 }}
+                                    className="flex items-start gap-3"
+                                >
                                     <svg className="flex-shrink-0 w-5 h-5 mt-0.5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                                     </svg>
                                     <span className="text-sm font-light text-foreground/90">
                                         {perk.text}
                                     </span>
-                                </li>
+                                </motion.li>
                             ))}
                         </ul>
-                    </div>
+                    </motion.div>
 
                     {/* CỘT BÊN PHẢI: THẺ FORM KHỐI KÍNH MỜ */}
-                    <div className="relative lg:col-span-7">
-                        {/* Ép mạnh hiệu ứng kính đặc biệt `backdrop-blur-2xl` giúp nổi bật hoàn toàn trên nền ảnh */}
-                        <div className="relative overflow-hidden p-8 md:p-10 bg-background/40 backdrop-blur-2xl rounded-3xl border border-border/80 shadow-2xl shadow-primary/5 min-h-[490px] flex flex-col justify-center transition-all duration-300">
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.98, y: 20 }}
+                        whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+                        className="relative lg:col-span-7"
+                    >
+                        {/* Bọc toàn bộ card kính mờ bằng bố cục chống giật chiều cao khi chuyển đổi giao diện */}
+                        <div className="relative overflow-hidden p-8 md:p-10 bg-background/40 backdrop-blur-2xl rounded-3xl border border-border/80 shadow-2xl shadow-primary/5 min-h-[510px] flex flex-col justify-center transition-all duration-300 transform-gpu">
 
-                            {!isSuccess ? (
-                                <form
-                                    onSubmit={handleSubmit}
-                                    className={cn("space-y-5 transition-opacity duration-300", isSubmitting && "opacity-50 pointer-events-none")}
-                                >
-                                    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-                                        <div className="space-y-2">
-                                            <Label htmlFor="name" className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">Full Name</Label>
-                                            <Input
-                                                id="name"
-                                                required
-                                                placeholder="Nguyen Van A"
-                                                value={formData.name}
-                                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                                className="bg-background/80 border-border/80 rounded-xl px-4 py-3 h-11 text-sm focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary transition-all placeholder:text-muted-foreground/40"
-                                            />
-                                        </div>
-
-                                        <div className="space-y-2">
-                                            <Label htmlFor="phone" className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">Phone Number</Label>
-                                            <Input
-                                                id="phone"
-                                                type="tel"
-                                                required
-                                                placeholder="0912 xxx xxx"
-                                                value={formData.phone}
-                                                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                                                className="bg-background/80 border-border/80 rounded-xl px-4 py-3 h-11 text-sm focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary transition-all placeholder:text-muted-foreground/40"
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        <Label htmlFor="email" className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">Email Address</Label>
-                                        <Input
-                                            id="email"
-                                            type="email"
-                                            required
-                                            placeholder="name@company.com"
-                                            value={formData.email}
-                                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                            className="bg-background/80 border-border/80 rounded-xl px-4 py-3 h-11 text-sm focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary transition-all placeholder:text-muted-foreground/40"
-                                        />
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        <Label htmlFor="note" className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">Cat Breeds & Architectural Notes</Label>
-                                        <Textarea
-                                            id="note"
-                                            rows={3}
-                                            placeholder="Tell us about your cats (optional)"
-                                            value={formData.note}
-                                            onChange={(e) => setFormData({ ...formData, note: e.target.value })}
-                                            className="bg-background/80 border-border/80 rounded-xl px-4 py-3 text-sm focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary transition-all resize-none placeholder:text-muted-foreground/40"
-                                        />
-                                    </div>
-
-                                    <Button
-                                        type="submit"
-                                        disabled={isSubmitting}
-                                        className="w-full py-6 text-sm font-semibold tracking-wide rounded-xl shadow-lg transition-all active:scale-[0.99] cursor-pointer"
+                            <AnimatePresence mode="wait">
+                                {!isSuccess ? (
+                                    <motion.form
+                                        key="form-fields"
+                                        onSubmit={handleSubmit}
+                                        initial={{ opacity: 0, x: 0 }}
+                                        animate={{ opacity: isSubmitting ? 0.5 : 1, x: 0 }}
+                                        exit={{ opacity: 0, x: -20 }}
+                                        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                                        className={cn("space-y-5", isSubmitting && "pointer-events-none")}
                                     >
-                                        {isSubmitting ? (
-                                            <>
-                                                <svg className="animate-spin h-4 w-4 mr-2 text-current" fill="none" viewBox="0 0 24 24">
-                                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                                                </svg>
-                                                <span className="opacity-80">Encrypting Secure Pipeline...</span>
-                                            </>
-                                        ) : (
-                                            <span className="flex items-center gap-2">
-                                                Pre-order
-                                                <svg className="w-4 h-4 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                                                </svg>
-                                            </span>
-                                        )}
-                                    </Button>
-                                </form>
-                            ) : (
-                                <div className="flex flex-col items-center text-center space-y-6 py-6 z-10 animate-in fade-in zoom-in-95 duration-500">
-                                    <div className="relative flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full border border-primary/30 shadow-[0_0_30px_rgba(var(--primary),0.2)]">
-                                        <svg className="w-8 h-8 text-primary animate-in zoom-in duration-300 delay-100" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                                        </svg>
-                                    </div>
-                                    <div className="space-y-2">
-                                        <h3 className="text-2xl font-extrabold tracking-tight text-foreground">
-                                            {FORM_DATA.success.title}
-                                        </h3>
-                                        <p className="max-w-md text-sm font-light leading-relaxed text-muted-foreground">
-                                            {FORM_DATA.success.message}
-                                        </p>
-                                    </div>
-                                </div>
-                            )}
+                                        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                                            <div className="space-y-2">
+                                                <Label htmlFor="name" className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">Full Name</Label>
+                                                <Input
+                                                    id="name"
+                                                    required
+                                                    placeholder="Nguyen Van A"
+                                                    value={formData.name}
+                                                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                                    className="bg-background/80 border-border/80 rounded-xl px-4 py-3 h-11 text-sm focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary transition-all placeholder:text-muted-foreground/40"
+                                                />
+                                            </div>
+
+                                            <div className="space-y-2">
+                                                <Label htmlFor="phone" className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">Phone Number</Label>
+                                                <Input
+                                                    id="phone"
+                                                    type="tel"
+                                                    required
+                                                    placeholder="0912 xxx xxx"
+                                                    value={formData.phone}
+                                                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                                                    className="bg-background/80 border-border/80 rounded-xl px-4 py-3 h-11 text-sm focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary transition-all placeholder:text-muted-foreground/40"
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <Label htmlFor="email" className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">Email Address</Label>
+                                            <Input
+                                                id="email"
+                                                type="email"
+                                                required
+                                                placeholder="name@company.com"
+                                                value={formData.email}
+                                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                                className="bg-background/80 border-border/80 rounded-xl px-4 py-3 h-11 text-sm focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary transition-all placeholder:text-muted-foreground/40"
+                                            />
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <Label htmlFor="note" className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">Cat Breeds & Architectural Notes</Label>
+                                            <Textarea
+                                                id="note"
+                                                rows={3}
+                                                placeholder="Tell us about your cats (optional)"
+                                                value={formData.note}
+                                                onChange={(e) => setFormData({ ...formData, note: e.target.value })}
+                                                className="bg-background/80 border-border/80 rounded-xl px-4 py-3 text-sm focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary transition-all resize-none placeholder:text-muted-foreground/40"
+                                            />
+                                        </div>
+
+                                        <Button
+                                            type="submit"
+                                            disabled={isSubmitting}
+                                            className="w-full py-6 text-sm font-semibold tracking-wide rounded-xl shadow-lg transition-all active:scale-[0.99] cursor-pointer"
+                                        >
+                                            {isSubmitting ? (
+                                                <span className="flex items-center justify-center gap-2">
+                                                    <svg className="animate-spin h-4 w-4 text-current" fill="none" viewBox="0 0 24 24">
+                                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                                                    </svg>
+                                                    <span className="opacity-80">Encrypting Secure Pipeline...</span>
+                                                </span>
+                                            ) : (
+                                                <span className="flex items-center gap-2">
+                                                    Pre-order
+                                                    <svg className="w-4 h-4 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                                    </svg>
+                                                </span>
+                                            )}
+                                        </Button>
+                                    </motion.form>
+                                ) : (
+                                    <motion.div
+                                        key="success-message"
+                                        initial={{ opacity: 0, y: 15, scale: 0.95 }}
+                                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                                        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                                        className="flex flex-col items-center text-center space-y-6 py-6 z-10"
+                                    >
+                                        <div className="relative flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full border border-primary/30 shadow-[0_0_30px_rgba(var(--primary),0.2)]">
+                                            <svg className="w-8 h-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                            </svg>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <h3 className="text-2xl font-extrabold tracking-tight text-foreground">
+                                                {FORM_DATA.success.title}
+                                            </h3>
+                                            <p className="max-w-md text-sm font-light leading-relaxed text-muted-foreground">
+                                                {FORM_DATA.success.message}
+                                            </p>
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
 
                         </div>
-                    </div>
+                    </motion.div>
 
                 </div>
             </div>
