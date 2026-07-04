@@ -3,6 +3,7 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import Image from "next/image"
 import { useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 
 const EPILOGUE_SECTION = {
     title: "Crafted for a Quieter,\nCleaner Home.",
@@ -35,20 +36,27 @@ const TRINITY_DATA = [
 
 const SmartOperation = () => {
     const [activeTab, setActiveTab] = useState(0)
+
     return (
         <>
             {/* EPILOGUE ARCHITECTURAL FRAME: THE INTERACTIVE SPLITTER */}
             <div className="pt-20 border-t border-border/60 max-w-5xl mx-auto space-y-12 px-4 sm:px-0">
 
-                {/* TIÊU ĐỀ TRUNG TÂM */}
-                <div className="text-center max-w-3xl mx-auto space-y-3">
+                {/* TIÊU ĐỀ TRUNG TÂM - Trồi nhẹ khi cuộn đến */}
+                <motion.div
+                    initial={{ opacity: 0, y: 25 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                    className="text-center max-w-3xl mx-auto space-y-3"
+                >
                     <h3 className="tracking-tight font-bold text-foreground text-2xl sm:text-4xl whitespace-pre-line">
                         {EPILOGUE_SECTION.title}
                     </h3>
                     <p className="text-xs sm:text-sm font-light text-muted-foreground leading-relaxed">
                         {EPILOGUE_SECTION.description}
                     </p>
-                </div>
+                </motion.div>
 
                 {/* KHỐI TƯƠNG TÁC ĐỘT PHÁ */}
                 <div className="space-y-8">
@@ -60,7 +68,6 @@ const SmartOperation = () => {
                             collapsible
                             defaultValue="item-0"
                             onValueChange={(value) => {
-                                // Đồng bộ hóa state nếu sếp muốn giữ liên kết giữa mobile và PC khi resize màn hình
                                 if (value) setActiveTab(parseInt(value.split("-")[1]))
                             }}
                             className="w-full space-y-3"
@@ -95,8 +102,14 @@ const SmartOperation = () => {
                         </Accordion>
                     </div>
 
-                    {/* LAYOUT PC (Từ md trở lên): Giữ nguyên bộ thấu kính co giãn hàng ngang */}
-                    <div className="hidden md:block space-y-8">
+                    {/* LAYOUT PC (Từ md trở lên): Giữ nguyên bộ thấu kính co giãn hàng ngang kết hợp mượt mà với Framer Motion */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+                        className="hidden md:block space-y-8"
+                    >
                         {/* Thanh điều hướng chữ mỏng */}
                         <div className="grid grid-cols-3 border-b border-border/40 pb-4 gap-6">
                             {TRINITY_DATA.map((item, idx) => (
@@ -104,7 +117,7 @@ const SmartOperation = () => {
                                     key={idx}
                                     onMouseEnter={() => setActiveTab(idx)}
                                     onClick={() => setActiveTab(idx)}
-                                    className="text-left space-y-2 group/btn outline-none"
+                                    className="text-left space-y-2 group/btn outline-none cursor-pointer"
                                 >
                                     <div className="flex items-center justify-between">
                                         <span className="text-[10px] font-mono text-primary/70">
@@ -126,27 +139,47 @@ const SmartOperation = () => {
                                 return (
                                     <div
                                         key={idx}
-                                        className={`relative h-full rounded-2xl overflow-hidden border border-border/60 bg-secondary/10 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${isActive ? 'flex-grow-[4] shadow-md' : 'flex-grow-[1] opacity-40 grayscale-[40%]'
+                                        className={`relative h-full rounded-2xl overflow-hidden border border-border/60 bg-secondary/10 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] transform-gpu ${isActive ? 'flex-grow-[4] shadow-md' : 'flex-grow-[1] opacity-40 grayscale-[40%]'
                                             }`}
                                     >
                                         <Image src={item.image} alt={item.title} fill sizes="40vw" loading="lazy" className="object-scale-down" />
-                                        {!isActive && (
-                                            <div className="absolute inset-0 bg-background/20 backdrop-blur-xs flex items-center justify-center p-4">
-                                                <span className="font-mono text-xl font-bold text-foreground/40">{item.index}</span>
-                                            </div>
-                                        )}
+
+                                        {/* Lớp phủ nhòe cực nhẹ cho các tab không kích hoạt */}
+                                        <AnimatePresence>
+                                            {!isActive && (
+                                                <motion.div
+                                                    initial={{ opacity: 0 }}
+                                                    animate={{ opacity: 1 }}
+                                                    exit={{ opacity: 0 }}
+                                                    transition={{ duration: 0.3 }}
+                                                    className="absolute inset-0 bg-background/20 backdrop-blur-xs flex items-center justify-center p-4"
+                                                >
+                                                    <span className="font-mono text-xl font-bold text-foreground/40">{item.index}</span>
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
                                     </div>
                                 )
                             })}
                         </div>
 
-                        {/* Mô tả dưới cùng cho PC */}
-                        <div className="min-h-[60px] max-w-2xl">
-                            <p className="text-xs sm:text-sm font-light text-muted-foreground leading-relaxed">
-                                {activeTab >= 0 && TRINITY_DATA[activeTab] ? TRINITY_DATA[activeTab].desc : TRINITY_DATA[0].desc}
-                            </p>
+                        {/* Mô tả dưới cùng cho PC với hiệu ứng trượt đổi chữ mượt mà (Crossfade Text) */}
+                        <div className="min-h-[60px] max-w-2xl overflow-hidden relative">
+                            <AnimatePresence mode="wait">
+                                <motion.div
+                                    key={activeTab}
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -10 }}
+                                    transition={{ duration: 0.3, ease: 'easeOut' }}
+                                >
+                                    <p className="text-xs sm:text-sm font-light text-muted-foreground leading-relaxed">
+                                        {TRINITY_DATA[activeTab]?.desc || TRINITY_DATA[0].desc}
+                                    </p>
+                                </motion.div>
+                            </AnimatePresence>
                         </div>
-                    </div>
+                    </motion.div>
 
                 </div>
             </div>

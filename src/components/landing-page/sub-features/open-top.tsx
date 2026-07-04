@@ -1,5 +1,9 @@
+'use client'
+
+import { useRef } from "react"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
+import { motion, useScroll, useTransform } from "framer-motion"
 
 const CHAPTER_DATA = [
     {
@@ -41,103 +45,165 @@ const SAFETY_REASONS = [
 ]
 
 const OpenTop = () => {
-
     return (
         <>
             {/* CHAPTERS GENERATOR (CHAPTER 1 & 2) */}
             {CHAPTER_DATA.map((chapter, index) => {
-                const isEven = index % 2 === 0
-                return (
-                    <div
-                        key={chapter.id}
-                        className="grid grid-cols-1 gap-16 mb-40 items-center lg:grid-cols-12"
-                    >
-                        <div className={cn("lg:col-span-6", isEven ? "order-2 lg:order-1" : "lg:pl-16 order-2")}>
-                            <h3 className="tracking-tight font-bold text-foreground mb-6 text-3xl sm:text-4xl whitespace-pre-line">
-                                {chapter.title}
-                            </h3>
-                            <p className="text-base font-light leading-relaxed text-muted-foreground mb-8 max-w-lg">
-                                {chapter.description}
-                            </p>
-                            <div className="flex gap-12 border-t border-border/60 pt-6">
-                                {chapter.highlights.map((item, hIdx) => (
-                                    <div key={hIdx}>
-                                        <span className="block text-[10px] font-medium tracking-wider text-muted-foreground uppercase mb-1">
-                                            {item.label}
-                                        </span>
-                                        <span className="text-lg font-bold text-foreground">
-                                            {item.value}
-                                        </span>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        <div className={cn("lg:col-span-6", isEven ? "order-1 lg:order-2" : "order-1")}>
-                            <div className="relative aspect-[4/3] rounded-[32px] overflow-hidden bg-secondary/20 shadow-xl border border-border/40">
-                                <Image
-                                    src={chapter.image}
-                                    alt={chapter.alt}
-                                    fill
-                                    sizes="(max-width: 1024px) 100vw, 50vw"
-                                    loading="lazy"
-                                    className="object-cover"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                )
+                return <ChapterRow key={chapter.id} chapter={chapter} index={index} />
             })}
 
-            {/* WHY OPEN-TOP: PURE MINIMALIST LAYOUT */}
-            <div className="mb-40 pt-20 border-t border-border/40 space-y-16">
+            {/* WHY OPEN-TOP SECTION */}
+            <WhyOpenTopSection />
+        </>
+    )
+}
 
-                {/* HÀNG TRÊN: TIÊU ĐỀ & HÌNH ẢNH ĐỐI XỨNG PHẲNG */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+// Sub-component xử lý hiệu ứng cuộn độc lập cho mỗi hàng Chapter
+const ChapterRow = ({ chapter, index }: { chapter: any; index: number }) => {
+    const rowRef = useRef<HTMLDivElement>(null)
+    const isEven = index % 2 === 0
 
-                    {/* Khối chữ đơn giản bên trái */}
-                    <div className="lg:col-span-5 space-y-4">
-                        <h3 className="tracking-tight font-bold text-foreground text-3xl sm:text-4xl leading-tight whitespace-pre-line">
-                            {SAFETY_SECTION.title}
-                        </h3>
-                        <p className="text-sm font-light leading-relaxed text-muted-foreground max-w-md">
-                            {SAFETY_SECTION.description}
-                        </p>
-                    </div>
+    // Hiệu ứng zoom nhẹ ảnh khi cuộn chuột đi qua
+    const { scrollYProgress } = useScroll({
+        target: rowRef,
+        offset: ["start end", "end start"]
+    })
+    const imageScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.1, 1, 0.95])
 
-                    {/* Hình ảnh phẳng, gọn gàng bên phải */}
-                    <div className="lg:col-span-7">
-                        <div className="relative w-full aspect-square rounded-2xl overflow-hidden bg-secondary/20 shadow-xl border border-border/40">
-                            <Image
-                                src="/images/open_top_litter_box_1.webp"
-                                alt="Neakasa M1 Open-top safety structure"
-                                fill
-                                sizes="(max-width: 1024px) 100vw, 55vw"
-                                loading="lazy"
-                                className="object-cover"
-                            />
-                        </div>
-                    </div>
-                </div>
-
-                {/* HÀNG DƯỚI: DANH SÁCH CÁC THÔNG SỐ ĐƯỢC CHIA ĐỀU TĂM TẮP */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-8 border-t border-border/20">
-                    {SAFETY_REASONS.map((reason, idx) => (
-                        <div key={idx} className="space-y-2">
-                            {/* Tiêu đề thẻ dạng text phẳng, không bọc box màu mè */}
-                            <h4 className="text-xs font-bold tracking-wider text-foreground uppercase flex items-center gap-2">
-                                <span className="w-1.5 h-1.5 rounded-full bg-primary/60 inline-block" />
-                                {reason.title}
-                            </h4>
-                            <p className="text-xs font-light text-muted-foreground leading-relaxed pl-3.5">
-                                {reason.desc}
-                            </p>
+    return (
+        <div
+            ref={rowRef}
+            className="grid grid-cols-1 gap-16 mb-40 items-center lg:grid-cols-12 overflow-hidden"
+        >
+            {/* Khối Text: Trồi mượt từ dưới lên */}
+            <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                className={cn("lg:col-span-6", isEven ? "order-2 lg:order-1" : "lg:pl-16 order-2")}
+            >
+                <h3 className="tracking-tight font-bold text-foreground mb-6 text-3xl sm:text-4xl whitespace-pre-line">
+                    {chapter.title}
+                </h3>
+                <p className="text-base font-light leading-relaxed text-muted-foreground mb-8 max-w-lg">
+                    {chapter.description}
+                </p>
+                <div className="flex gap-12 border-t border-border/60 pt-6">
+                    {chapter.highlights.map((item: any, hIdx: number) => (
+                        <div key={hIdx}>
+                            <span className="block text-[10px] font-medium tracking-wider text-muted-foreground uppercase mb-1">
+                                {item.label}
+                            </span>
+                            <span className="text-lg font-bold text-foreground">
+                                {item.value}
+                            </span>
                         </div>
                     ))}
                 </div>
+            </motion.div>
 
+            {/* Khối Ảnh: Zoom Parallax nhẹ */}
+            <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                className={cn("lg:col-span-6", isEven ? "order-1 lg:order-2" : "order-1")}
+            >
+                <div className="relative aspect-[4/3] rounded-[32px] overflow-hidden bg-secondary/20 shadow-xl border border-border/40 group transform-gpu">
+                    <motion.div style={{ scale: imageScale }} className="w-full h-full relative transform-gpu">
+                        <Image
+                            src={chapter.image}
+                            alt={chapter.alt}
+                            fill
+                            sizes="(max-width: 1024px) 100vw, 50vw"
+                            loading="lazy"
+                            className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                    </motion.div>
+                </div>
+            </motion.div>
+        </div>
+    )
+}
+
+// Sub-component xử lý lưới thông số kĩ thuật so le
+const WhyOpenTopSection = () => {
+    return (
+        <div className="mb-40 pt-20 border-t border-border/40 space-y-16">
+
+            {/* HÀNG TRÊN: TIÊU ĐỀ & HÌNH ẢNH ĐỐI XỨNG PHẲNG */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <motion.div
+                    initial={{ opacity: 0, x: -30 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                    className="lg:col-span-5 space-y-4"
+                >
+                    <h3 className="tracking-tight font-bold text-foreground text-3xl sm:text-4xl leading-tight whitespace-pre-line">
+                        {SAFETY_SECTION.title}
+                    </h3>
+                    <p className="text-sm font-light leading-relaxed text-muted-foreground max-w-md">
+                        {SAFETY_SECTION.description}
+                    </p>
+                </motion.div>
+
+                <motion.div
+                    initial={{ opacity: 0, x: 30 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                    className="lg:col-span-7"
+                >
+                    <div className="relative w-full aspect-square rounded-2xl overflow-hidden bg-secondary/20 shadow-xl border border-border/40">
+                        <Image
+                            src="/images/open_top_litter_box_1.webp"
+                            alt="Neakasa M1 Open-top safety structure"
+                            fill
+                            sizes="(max-width: 1024px) 100vw, 55vw"
+                            loading="lazy"
+                            className="object-cover"
+                        />
+                    </div>
+                </motion.div>
             </div>
-        </>
+
+            {/* HÀNG DƯỚI: DANH SÁCH 4 TIÊU CHÍ RƠI SO LE */}
+            <motion.div
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, margin: "-50px" }}
+                variants={{
+                    hidden: { opacity: 0 },
+                    show: {
+                        opacity: 1,
+                        transition: { staggerChildren: 0.12 }
+                    }
+                }}
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-8 border-t border-border/20"
+            >
+                {SAFETY_REASONS.map((reason, idx) => (
+                    <motion.div
+                        key={idx}
+                        variants={{
+                            hidden: { opacity: 0, y: 20 },
+                            show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100, damping: 15 } }
+                        }}
+                        className="space-y-2"
+                    >
+                        <h4 className="text-xs font-bold tracking-wider text-foreground uppercase flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-primary/60 inline-block" />
+                            {reason.title}
+                        </h4>
+                        <p className="text-xs font-light text-muted-foreground leading-relaxed pl-3.5">
+                            {reason.desc}
+                        </p>
+                    </motion.div>
+                ))}
+            </motion.div>
+        </div>
     )
 }
 
