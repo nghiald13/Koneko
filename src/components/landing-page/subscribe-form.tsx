@@ -11,6 +11,15 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
+import { postSubscribe } from "@/utils/action"
+import { toast } from "sonner"
+
+export interface ISubscriber {
+    name: string,
+    phone: string,
+    email: string,
+    description: string,
+}
 
 const FORM_DATA = {
     badge: "Limited Privilege Available",
@@ -32,14 +41,27 @@ export default function SubscribeForm() {
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [isSuccess, setIsSuccess] = useState(false)
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault()
         if (!formData.name || !formData.phone || !formData.email) return
 
         setIsSubmitting(true)
-        await new Promise((resolve) => setTimeout(resolve, 1500))
+        const res = await postSubscribe({
+            name: formData.name,
+            phone: formData.phone,
+            email: formData.email,
+            description: formData.note
+        })
+
+        if (res.statusCode === 201) {
+            setIsSuccess(true)
+        } else {
+            toast.error("There's something wrong with the process.", {
+                description: res.message
+            })
+        }
         setIsSubmitting(false)
-        setIsSuccess(true)
+
     }
 
     return (
@@ -119,7 +141,7 @@ export default function SubscribeForm() {
                                 {!isSuccess ? (
                                     <motion.form
                                         key="form-fields"
-                                        onSubmit={handleSubmit}
+                                        onSubmit={e => handleSubmit(e)}
                                         initial={{ opacity: 0, x: 0 }}
                                         animate={{ opacity: isSubmitting ? 0.5 : 1, x: 0 }}
                                         exit={{ opacity: 0, x: -20 }}

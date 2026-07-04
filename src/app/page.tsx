@@ -5,11 +5,13 @@ import LandingPageHero from "@/components/landing-page/hero"
 import SplitKineticSpecifications from "@/components/landing-page/specs"
 import SubscribeForm from "@/components/landing-page/subscribe-form"
 import LandingPageFooter from "@/components/landing-page/footer"
+import { Toaster } from "sonner"
 
 export default function HomePage() {
 
   return (
     <div className="relative min-h-screen bg-background text-foreground antialiased selection:bg-primary/10">
+      <Toaster />
 
       {/* 1. HEADER / NAVBAR COMPONENT */}
       <LandingPageHeader />
