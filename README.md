@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Plaintext
+# Koneko Frontend
+
+![Next.js](https://img.shields.io/badge/Next.js-16.x-black?style=for-the-badge&logo=next.js&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-v4-06B6D4?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Gemini](https://img.shields.io/badge/Gemini_API-2.5_Flash-orange?style=for-the-badge&logo=google-gemini&logoColor=white)
+
+The modern, responsive, and high-performance user interface for the Koneko landing page. Integrated with real-time AI Chat Agent for product consultation. Built with **Next.js (v16)** and **TypeScript**.
 
 ## Getting Started
 
-First, run the development server:
+Follow these steps to set up and run the Koneko Frontend development server locally on your machine.
+
+### Prerequisites
+
+Before installation, ensure you have the following installed:
+- [Node.js](https://nodejs.org/) (v18 or higher recommended, fully optimized for modern runtimes)
+- [npm](https://www.npmjs.com/) (bundled with Node.js)
+- Valid API Key from [Google AI Studio](https://aistudio.google.com/)
+
+### Installation & Setup
+
+1. **Clone the repository:**
+   ```bash
+   git clone <your-repository-url>
+   cd Koneko
+   ```
+
+2. **Install project dependencies:**
+```bash
+npm install
+```
+
+3. **Configure Environment Variables:**
+Create a .env.local file in the root directory of your project:
+
+```Bash
+touch .env.local
+```
+Open the .env.local file and configure your keys according to the provided template:
+
+```bash
+# Backend Config
+BACKEND_URL=
+SUBSCRIBE_API=
+
+# Gemini Config
+GEMINI_API_KEY=your_gemini_api_key_here
+```
+
+4. **Running the Application**
+Manage the application lifecycle using the standard predefined scripts:
+
+**Development Mode** (Runs local environment with hot-module replacement):
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+Once running, open http://localhost:3000 in your browser to view the application.
+
+**Production Build** (Compiles and creates an optimized production-ready bundle):
+
+```bash
+npm run build
+```
+**Production Start** (Launches the server with the pre-compiled build assets):
+
+```bash
+npm run start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+📂 Project Directory Structure
+```bash
+src/
+├── app/               # Next.js App Router (Pages, layouts, global styles, and layout wrappers)
+├── components/        # Reusable UI structures & specific module features (chatbot, landing-page, animate)
+├── lib/               # Shared utility functions and core helpers (e.g., tailwind-merge utilities)
+└── utils/             # Business & Data Processing Logic (Server Actions, Gemini API communication)
+```
