@@ -58,7 +58,7 @@ const LandingPageNewFeatures = () => {
 
     const currentImage = activeFeature !== null
         ? features.find(f => f.id === activeFeature)?.imageSrc
-        : "/images/neakasa_m1_upgrades.jfif"
+        : "/images/neakasa_m1_upgrades.webp"
 
     const handleFeatureSelect = (id: number) => {
         if (activeFeature === id) {
